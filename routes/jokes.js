@@ -2,11 +2,12 @@ const express = require("express")
 const app = express()
 const router = express.Router()
 
+const authenticateToken = require("../middleware/authorization")
 const fetchRandomJoke = require("../utils/fetchJoke")
 
 app.use(express.json())
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const joke = await fetchRandomJoke()
 
