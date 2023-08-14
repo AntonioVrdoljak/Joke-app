@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 const app = express()
 
+const bcrypt = require("bcrypt")
+
 app.use(express.json())
 
 //Import User Schema
@@ -21,6 +23,41 @@ router.get("/", async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while retrieving the user" })
+  }
+})
+
+//Signin user
+router.post("/signin", async (req, res) => {
+  const { email, password, firstName, lastName } = req.body
+
+  try {
+    const existingUser = await User.findOne({ email }).exec()
+
+    if (existingUser) {
+      console.log("User with this email already exists.")
+      return res
+        .status(400)
+        .json({ error: "User with this email already exists." })
+    }
+    if (!firstName || !lastName) {
+      console.log(
+        "Enter the user's first and last name to complete the process."
+      )
+      return res.status(400).json({
+        error: "Enter the user's first and last name to complete the process.",
+      })
+    }
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      firstName,
+      lastName,
+    })
+    const savedUser = await newUser.save()
+  } catch (error) {
+    console.error("Error creating user:", error)
+    res.status(500).json({ error: "An error occurred while creating the user" })
   }
 })
 
