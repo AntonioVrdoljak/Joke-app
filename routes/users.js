@@ -4,6 +4,8 @@ const app = express()
 
 const bcrypt = require("bcrypt")
 const generateToken = require("../utils/jwt")
+const errorMessages = require("../messages/error-messages.json")
+const infoMessages = require("../messages/info-messages.json")
 
 app.use(express.json())
 
@@ -15,15 +17,13 @@ router.get("/", async (req, res) => {
   try {
     const users = await User.find().exec()
 
-    if (!users) return res.status(404).json({ error: "MongoDB is empty." })
+    if (!users) return res.status(404).json({ error: errorMessages.emptyDB })
 
     console.log(users)
     res.json(users)
   } catch (error) {
-    console.error("Error retrieving user:", error)
-    res
-      .status(500)
-      .json({ error: "An error occurred while retrieving the user" })
+    console.error(errorMessages.retrievingUser, error)
+    res.status(500).json({ error: errorMessages.retrievingUser })
   }
 })
 
@@ -35,17 +35,13 @@ router.post("/signin", async (req, res) => {
     const existingUser = await User.findOne({ email }).exec()
 
     if (existingUser) {
-      console.log("User with this email already exists.")
-      return res
-        .status(400)
-        .json({ error: "User with this email already exists." })
+      console.log(errorMessages.emailAlreadyExists)
+      return res.status(400).json({ error: errorMessages.emailAlreadyExists })
     }
     if (!firstName || !lastName) {
-      console.log(
-        "Enter the user's first and last name to complete the process."
-      )
+      console.log(errorMessages.missingFields)
       return res.status(400).json({
-        error: "Enter the user's first and last name to complete the process.",
+        error: errorMessages.missingFields,
       })
     }
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -58,10 +54,11 @@ router.post("/signin", async (req, res) => {
     const savedUser = await newUser.save()
     const token = generateToken(savedUser)
 
+    console.log(infoMessages.successfullyLogged)
     res.json(token)
   } catch (error) {
-    console.error("Error creating user:", error)
-    res.status(500).json({ error: "An error occurred while creating the user" })
+    console.error(errorMessages.createUser, error)
+    res.status(500).json({ error: errorMessages.createUser })
   }
 })
 
@@ -69,24 +66,25 @@ router.post("/signin", async (req, res) => {
 router.post("/login", async (req, res) => {
   const users = await User.find().exec()
 
-  if (!users) return res.status(404).json({ error: "MongoDB is empty." })
+  if (!users) return res.status(404).json({ error: errorMessages.emptyDB })
 
   const user = users.find((user) => user.email == req.body.email)
 
-  if (user == null) return res.status(400).send("Cannot find user.")
+  if (user == null) return res.status(400).send(errorMessages.noUser)
 
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const token = generateToken(user)
 
-      console.log("User successfully logged in.")
+      console.log(infoMessages.successfullyLogged)
       res.json(token)
     } else {
-      console.log("The user was not successfully logged in.")
-      res.json("Not Allowed.")
+      console.log(errorMessages.notLoggedin)
+      res.json(errorMessages.notAllowed)
     }
   } catch (error) {
-    res.status(500).send()
+    console.error(errorMessages.notLoggedin, error)
+    res.status(500).json({ error: errorMessages.notAllowed })
   }
 })
 

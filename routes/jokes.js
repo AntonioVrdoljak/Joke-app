@@ -5,6 +5,7 @@ const router = express.Router()
 const authenticateToken = require("../middleware/authorization")
 const fetchRandomJoke = require("../utils/fetchJoke")
 const sendJokeByEmail = require("../utils/mailer")
+const errorMessages = require("../messages/error-messages.json")
 
 app.use(express.json())
 
@@ -16,8 +17,8 @@ router.get("/", authenticateToken, async (req, res) => {
 
     res.json({ joke })
   } catch (error) {
-    console.error("Error fetching and sending joke:", error)
-    res.status(500).json({ error: "An error occurred while fetching joke" })
+    console.error(errorMessages.fetchingJoke, error)
+    res.status(500).json({ error: errorMessages.fetchingJoke })
   }
 })
 

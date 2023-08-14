@@ -1,0 +1,4 @@
+{
+  "dbConnected": "Connected to MongoDB",
+  "successfullyLogged": "The user has successfully logged in."
+}
