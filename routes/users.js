@@ -3,6 +3,7 @@ const router = express.Router()
 const app = express()
 
 const bcrypt = require("bcrypt")
+const generateToken = require("../utils/jwt")
 
 app.use(express.json())
 
@@ -54,8 +55,10 @@ router.post("/signin", async (req, res) => {
       firstName,
       lastName,
     })
-
     const savedUser = await newUser.save()
+    const token = generateToken(savedUser)
+
+    res.json(token)
   } catch (error) {
     console.error("Error creating user:", error)
     res.status(500).json({ error: "An error occurred while creating the user" })
@@ -74,7 +77,10 @@ router.post("/login", async (req, res) => {
 
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      const token = generateToken(user)
+
       console.log("User successfully logged in.")
+      res.json(token)
     } else {
       console.log("The user was not successfully logged in.")
       res.json("Not Allowed.")
