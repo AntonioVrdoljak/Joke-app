@@ -1,0 +1,16 @@
+{
+  "emptyDB": "MongoDB is empty.",
+  "invalidCredentials": "Invalid email or password.",
+  "userNotFound": "User not found.",
+  "missingFields": "Please fill in all required fields.",
+  "emailAlreadyExists": "This email address is already registered.",
+  "unauthorized": "Unauthorized",
+  "tokenFailed": "Token validation failed",
+  "fetchingJoke": "An error occurred while fetching and sending joke",
+  "retrievingUser": "Error retrieving user:",
+  "createUser": "An error occurred while creating the user",
+  "noUser": "Cannot find user.",
+  "notLoggedin": "The user was not successfully logged in.",
+  "notAllowed": "Not Allowed.",
+  "fetchRndJokeFail": "Error fetching random joke:"
+}

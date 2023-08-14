@@ -3,6 +3,8 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 
+const infoMessages = require("./messages/info-messages.json")
+
 //Connect MongoDB
 const mongoose = require("mongoose")
 
@@ -19,7 +21,7 @@ app.use("/fetch-joke", jokeRoute)
 async function connectMongoDB() {
   try {
     await mongoose.connect(process.env.DB_URL_CONNECTION)
-    console.log("Connected to MongoDB")
+    console.log(infoMessages.dbConnected)
 
     // Start the server
     app.listen(process.env.PORT, () => {
