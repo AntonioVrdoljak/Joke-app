@@ -40,6 +40,16 @@ The application is built using JavaScript, Express for the REST API, JWT for aut
      npm start
      ```
 
+## Testing API Endpoints
+
+### Using REST Client (Visual Studio Code Extension)
+
+1. **Install the REST Client extension**
+
+2. **Create a REST Client Request File or use an existing one "request.rest"**
+
+3. **Write API Requests**
+
 
 ## Technologies Used
 - Node.js
