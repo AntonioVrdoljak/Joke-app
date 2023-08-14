@@ -54,10 +54,33 @@ router.post("/signin", async (req, res) => {
       firstName,
       lastName,
     })
+
     const savedUser = await newUser.save()
   } catch (error) {
     console.error("Error creating user:", error)
     res.status(500).json({ error: "An error occurred while creating the user" })
+  }
+})
+
+//Login user
+router.post("/login", async (req, res) => {
+  const users = await User.find().exec()
+
+  if (!users) return res.status(404).json({ error: "MongoDB is empty." })
+
+  const user = users.find((user) => user.email == req.body.email)
+
+  if (user == null) return res.status(400).send("Cannot find user.")
+
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      console.log("User successfully logged in.")
+    } else {
+      console.log("The user was not successfully logged in.")
+      res.json("Not Allowed.")
+    }
+  } catch (error) {
+    res.status(500).send()
   }
 })
 
