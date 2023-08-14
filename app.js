@@ -6,8 +6,12 @@ const app = express()
 //Connect MongoDB
 const mongoose = require("mongoose")
 
+//Import Routes
+const userRoute = require("./routes/users")
+
 //Middleware
 app.use(express.json())
+app.use("/users", userRoute)
 
 //Connect to MongoDB
 async function connectMongoDB() {
