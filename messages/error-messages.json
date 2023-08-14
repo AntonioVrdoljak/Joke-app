@@ -12,5 +12,6 @@
   "noUser": "Cannot find user.",
   "notLoggedin": "The user was not successfully logged in.",
   "notAllowed": "Not Allowed.",
-  "fetchRndJokeFail": "Error fetching random joke:"
+  "fetchRndJokeFail": "Error fetching random joke:",
+  "deleteUserFailed": "Something went wrong during deletion."
 }

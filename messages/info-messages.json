@@ -1,4 +1,5 @@
 {
   "dbConnected": "Connected to MongoDB",
-  "successfullyLogged": "The user has successfully logged in."
+  "successfullyLogged": "The user has successfully logged in.",
+  "userDeleted": "User has been deleted: "
 }

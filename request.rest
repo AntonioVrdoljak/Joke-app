@@ -26,3 +26,12 @@ Content-Type: application/json
     "email": "test4@gmail.com",
     "password": "test123"
 }
+
+###
+
+DELETE http://localhost:3000/users/delete
+Content-Type: application/json
+
+{
+    "email": "test3@gmail.com"
+}
