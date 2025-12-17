@@ -33,7 +33,7 @@ The application is built using JavaScript, Express for the REST API, JWT for aut
         
       PORT = 3000
       DB_URL_CONNECTION = mongodb+srv://tonivrdoljak165:admin@chucknorriscluster.dnhncys.mongodb.net/?retryWrites=true&w=majority
-      ACCESS_TOKEN_SECRET = a718ec6231b2877724bfc3e9e80a48876336a768b422798c576310f269b20a42fca2517d8dad16ec23dbcdec3239847b9d563a3598cda50523d09d1d681e70c2
+
       ```
 4. Start the server:
      ```
